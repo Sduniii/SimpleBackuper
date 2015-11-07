@@ -11,22 +11,25 @@ namespace simpleBackuper
     {
         public static void writeLog(string txt)
         {
-            string path = AppDomain.CurrentDomain.BaseDirectory + "log.txt";
+            try {
+                string path = AppDomain.CurrentDomain.BaseDirectory + "log.txt";
 
-            if (!File.Exists(path))
-            {
-                using (StreamWriter sw = File.CreateText(path))
+                if (!File.Exists(path))
                 {
-                    sw.WriteLine(txt);
+                    using (StreamWriter sw = File.CreateText(path))
+                    {
+                        sw.WriteLine(txt);
+                    }
+                }
+                else
+                {
+                    using (StreamWriter sw = File.AppendText(path))
+                    {
+                        sw.WriteLine(txt);
+                    }
                 }
             }
-            else
-            {
-                using (StreamWriter sw = File.AppendText(path))
-                {
-                    sw.WriteLine(txt);
-                }
-            }
+            catch { }
         }
 
     }

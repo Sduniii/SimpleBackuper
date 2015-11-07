@@ -19,6 +19,7 @@ namespace simpleBackuper
         }
 
         string path = AppDomain.CurrentDomain.BaseDirectory + "paths.ts";
+        String patht = AppDomain.CurrentDomain.BaseDirectory + "target.ts";
         private void MainForm_Load(object sender, EventArgs e)
         {
             try
@@ -41,9 +42,13 @@ namespace simpleBackuper
                         listBox1.Items.Add(s);
                     }
                 }
+                using (StreamReader sr = File.OpenText(patht))
+                {
+                    textBox1.Text = sr.ReadLine();
+                }
             } catch (Exception ex)
             {
-                MessageBox.Show("Noch keine Daten vorhanden.\nBitte Ordner hinzufügen und speichern!", "Fehler",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                MessageBox.Show("Noch keine Daten vorhanden.\nBitte Ordner hinzufügen!", "Fehler",MessageBoxButtons.OK,MessageBoxIcon.Information);
                 LogHandler.writeLog(ex.Message);
             }
             
@@ -93,9 +98,8 @@ namespace simpleBackuper
             if(folderBrowserDialog1.ShowDialog() == DialogResult.OK && Directory.Exists(folderBrowserDialog1.SelectedPath))
             {
                 textBox1.Text = folderBrowserDialog1.SelectedPath;
-                String path = AppDomain.CurrentDomain.BaseDirectory + "target.ts";
 
-                File.WriteAllText(path,folderBrowserDialog1.SelectedPath);
+                File.WriteAllText(patht,folderBrowserDialog1.SelectedPath);
             }
         }
     }
